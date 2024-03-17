@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视觉辅助导航系统V1.0 - 文件上传</title>
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .upload-area { margin-bottom: 20px; }
+        #results { margin-top: 20px; }
+        button { cursor: pointer; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; }
+        button:hover { background-color: #0056b3; }
+        /* 添加进度条样式 */
+        .progress { background-color: #f3f3f3; border-radius: 13px; padding: 3px; }
+        .progress-bar { height: 20px; background-color: #4CAF50; width: 0%; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>上传文件进行识别</h1>
+        <div class="upload-area">
+            <input type="file" @change="handleFileChange" accept="image/*,video/*" required>
+            <button @click="submitFile">上传并识别</button>
+        </div>
+        <div class="progress" v-if="uploading">
+            <div class="progress-bar" :style="{ width: uploadProgress + '%' }"></div>
+        </div>
+        <div id="results">
+            <p v-if="result">识别结果：{{ result }}</p>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const file = ref(null);
+                const result = ref("");
+                const uploading = ref(false);
+                const uploadProgress = ref(0);
+
+                const handleFileChange = (event) => {
+                    file.value = event.target.files[0];
+                };
+
+                const submitFile = () => {
+                    if (!file.value) {
+                        alert("请选择一个图像或视频文件。");
+                        return;
+                    }
+                    uploading.value = true;
+                    uploadProgress.value = 0;
+
+                    const formData = new FormData();
+                    formData.append('file', file.value);
+
+                    const options = {
+                        method: 'POST',
+                        body: formData,
+                        onUploadProgress: (progressEvent) => {
+                            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                            uploadProgress.value = percentCompleted;
+                        }
+                    };
+
+                    fetch('http://127.0.0.1:5000/upload', options)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.predicted_class) {
+                            result.value = `识别结果：${data.predicted_class}`;
+                        } else {
+                            result.value = "识别失败，请尝试不同的文件。";
+                        }
+                        uploading.value = false;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("上传失败，请稍后再试。");
+                        uploading.value = false;
+                    });
+                };
+
+                return { file, result, uploading, uploadProgress, handleFileChange, submitFile };
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>

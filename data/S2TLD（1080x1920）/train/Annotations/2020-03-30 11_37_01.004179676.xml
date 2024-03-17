@@ -1,0 +1,37 @@
+<annotation>
+  <folder/>
+  <filename>2020-03-30 11_37_01.004179676.jpg</filename>
+  <database/>
+  <annotation/>
+  <image/>
+  <size>
+    <height>1080</height>
+    <width>1920</width>
+    <depth>3</depth>
+  </size>
+  <segmented/>
+  <object>
+    <name>red</name>
+    <pose/>
+    <truncated/>
+    <difficult/>
+    <bndbox>
+      <xmin>355</xmin>
+      <ymin>201</ymin>
+      <xmax>402</xmax>
+      <ymax>315</ymax>
+    </bndbox>
+  </object>
+  <object>
+    <name>red</name>
+    <pose/>
+    <truncated/>
+    <difficult/>
+    <bndbox>
+      <xmin>965</xmin>
+      <ymin>203</ymin>
+      <xmax>1009</xmax>
+      <ymax>310</ymax>
+    </bndbox>
+  </object>
+</annotation>

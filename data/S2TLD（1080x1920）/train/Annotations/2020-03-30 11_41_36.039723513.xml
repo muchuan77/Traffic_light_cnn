@@ -1,0 +1,25 @@
+<annotation>
+  <folder/>
+  <filename>2020-03-30 11_41_36.039723513.jpg</filename>
+  <database/>
+  <annotation/>
+  <image/>
+  <size>
+    <height>1080</height>
+    <width>1920</width>
+    <depth>3</depth>
+  </size>
+  <segmented/>
+  <object>
+    <name>green</name>
+    <pose/>
+    <truncated/>
+    <difficult/>
+    <bndbox>
+      <xmin>871</xmin>
+      <ymin>144</ymin>
+      <xmax>928</xmax>
+      <ymax>283</ymax>
+    </bndbox>
+  </object>
+</annotation>
