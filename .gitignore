@@ -1,3 +1,4 @@
 *.log
+*.jpg
 data/
 test_img/
